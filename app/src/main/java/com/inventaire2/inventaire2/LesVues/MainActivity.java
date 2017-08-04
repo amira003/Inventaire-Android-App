@@ -1,4 +1,4 @@
-package com.inventaire2.inventaire2;
+package com.inventaire2.inventaire2.LesVues;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -8,36 +8,50 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.inventaire2.inventaire2.LesModels.Article;
+import com.inventaire2.inventaire2.LesModels.RealmHelper;
+import com.inventaire2.inventaire2.R;
+import com.inventaire2.inventaire2.LesModels.RecyclerViewAdapter;
+import com.inventaire2.inventaire2.LesDonnees.Remplissage;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+import io.realm.RealmResults;
+
 public class MainActivity extends AppCompatActivity {
 
+    Realm realm;
     private RecyclerView mRecyclerView;
     private RecyclerViewAdapter mAdapter;
     private List<Article> articlesList = new ArrayList<>();
+    RealmHelper rh;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //Realm realm = Realm.getDefaultInstance();
 
-
+        rh = new RealmHelper();
         mRecyclerView = (RecyclerView) findViewById(R.id.RecyclerView);
-
-        mAdapter = new RecyclerViewAdapter(this,articlesList);
+        mAdapter = new RecyclerViewAdapter(this, articlesList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
+
+
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(mAdapter);
 
         initialiseData();
     }
+
 
     private void save(){
         Intent intent = new Intent(MainActivity.this, Remplissage.class);
@@ -88,52 +102,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void initialiseData() {
 
-        Intent intent = getIntent();
-        String message = intent.getStringExtra(Remplissage.EXTRA_MESSAGE);
-        int message2 = intent.getIntExtra(Remplissage.EXTRA_MESSAGE2,0);
-        int message3= intent.getIntExtra(Remplissage.EXTRA_MESSAGE3,0);
+         articlesList = rh.getListArticle();
 
-
-        Article article = new Article(message, message2,message3);
-        articlesList.add(article);
-        article = new Article("Vintage Logo T-shirt", 1500,2);
-        articlesList.add(article);
-        article = new Article("Tee-Shirt", 2000,2);
-        articlesList.add(article);
-        article = new Article("Pantalon", 1500,3);
-        articlesList.add(article);
-        article = new Article("Veste cuir", 8000,4);
-        articlesList.add(article);
-        article = new Article("Vintage Logo T-shirt", 1500,1);
-        articlesList.add(article);
-        article = new Article("Vintage Logo T-shirt", 1500,2);
-        articlesList.add(article);
-        article = new Article("Vintage Logo T-shirt", 1500,3);
-        articlesList.add(article);
-        article = new Article("Vintage Logo T-shirt", 1500,3);
-        articlesList.add(article);
-        article = new Article("Vintage Logo T-shirt", 1500,1);
-        articlesList.add(article);
-        article = new Article("Vintage Logo T-shirt", 1500,2);
-        articlesList.add(article);
-        article = new Article("Vintage Logo T-shirt", 1500,3);
-        articlesList.add(article);
-        article = new Article("Vintage Logo T-shirt", 1500,3);
-        articlesList.add(article);
-        article = new Article("Vintage Logo T-shirt", 1500,1);
-        articlesList.add(article);
-        article = new Article("Vintage Logo T-shirt", 1500,2);
-        articlesList.add(article);
-        article = new Article("Vintage Logo T-shirt", 1500,3);
-        articlesList.add(article);
-        article = new Article("Vintage Logo T-shirt", 1500,3);
-        articlesList.add(article);
-
-        mAdapter.notifyItemInserted(0);
-        mRecyclerView.scrollToPosition(0);
-        Toast.makeText(this,"Ajouté : " + message,Toast.LENGTH_SHORT).show();
+        mAdapter = new RecyclerViewAdapter(this, articlesList);
+        mRecyclerView.setAdapter(mAdapter);
 
     }
+
 }
 
 

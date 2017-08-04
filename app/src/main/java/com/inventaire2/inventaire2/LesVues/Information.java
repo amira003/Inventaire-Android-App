@@ -1,12 +1,13 @@
-package com.inventaire2.inventaire2;
+package com.inventaire2.inventaire2.LesVues;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
+
+import com.inventaire2.inventaire2.R;
+import com.inventaire2.inventaire2.LesModels.RecyclerViewAdapter;
+import com.inventaire2.inventaire2.LesDonnees.Remplissage;
 
 /**
  * Created by Fal on 27/07/2017.
@@ -32,4 +33,5 @@ public class Information extends AppCompatActivity {
         textView.setText("le nom est : " +message + " , le prix : " + Integer.toString(message2) +"et la quantite "+ Integer.toString(message3));
 
     }
+
 }

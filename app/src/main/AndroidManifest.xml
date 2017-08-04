@@ -2,13 +2,19 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.inventaire2.inventaire2">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL" android:protectionLevel="signature" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
+        android:name=".Configuration.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".LesVues.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -16,33 +22,25 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Remplissage"
-            android:parentActivityName=".MainActivity" >
+            android:name=".LesDonnees.Remplissage"
+            android:parentActivityName=".LesVues.MainActivity">
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".LesVues.MainActivity" />
         </activity>
 
-        <activity
-            android:name=".Information"
-            android:parentActivityName=".MainActivity"
-            android:label="@string/info">
-            <!-- The meta-data tag is required if you support API level 15 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
-        </activity>
 
         <activity
-            android:name=".PrixTotal"
-            android:parentActivityName=".MainActivity"
-            android:label="Information">
+            android:name=".LesVues.Information"
+            android:parentActivityName=".LesVues.MainActivity">
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".LesVues.MainActivity" />
         </activity>
+
+
     </application>
-    <permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL" android:protectionLevel="signature"/>
+
 </manifest>

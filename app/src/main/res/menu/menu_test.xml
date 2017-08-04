@@ -4,11 +4,11 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.inventaire2.inventaire2.MainActivity">
+    tools:context="com.inventaire2.inventaire2.LesVues.MainActivity">
 
     <item
         android:id="@+id/action_save"
-        android:icon="@android:drawable/ic_menu_save"
+        android:icon="@android:drawable/ic_input_add"
         android:title="@string/action_save"
         app:showAsAction="ifRoom" />
 
@@ -19,7 +19,7 @@
 
     <item
         android:id="@+id/action_delete"
-        android:icon="@android:drawable/ic_menu_delete"
+        android:icon="@android:drawable/ic_menu_info_details"
         android:title="@string/action_delete"
         app:showAsAction="ifRoom" />
 

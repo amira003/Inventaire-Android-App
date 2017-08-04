@@ -2,107 +2,166 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center"
-    android:orientation="vertical"
-    android:layout_centerHorizontal="true"
-    android:layout_centerVertical="true"
-    android:weightSum="1">
+
+    <TextView
+
+        android:id="@+id/tvSelectTheme"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:fontFamily="sans-serif"
+        android:gravity="center"
+        android:lineSpacingExtra="8sp"
+        android:text="@string/ajout_produit"
+        android:textColor="@color/colorPrimary"
+        android:textSize="30sp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="31dp" />
+
 
     <LinearLayout
+        android:id="@+id/linearLayout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="3dp"
+        android:paddingBottom="3dp"
+        android:paddingEnd="3dp"
+        android:weightSum="1">
 
-
-        <TextView
-            android:id="@+id/textView3"
+        <LinearLayout
+            android:id="@+id/linearLayout2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.09"
-            android:text="@string/nom_produit" />
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingBottom="19dp"
+            android:weightSum="1">
 
-        <EditText
-            android:id="@+id/editText3"
+            <TextView
+
+                android:id="@+id/tvSelectTheme1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="sans-serif"
+                android:gravity="left|center"
+                android:text="Nom Produit : "
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/editText3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="20dp"
+                android:layout_weight="0.04"
+                android:ems="10"
+                android:gravity="left|center_vertical"
+                android:hint="@string/nm_produit"
+                android:inputType="textPersonName" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/linearLayout3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="left|center_vertical"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="29dp"
-            android:layout_weight="0.04"
-            android:ems="10"
-            android:hint="@string/nm_produit"
-            android:inputType="textPersonName" />
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingBottom="19dp"
+            android:weightSum="1">
+
+            <TextView
+                android:id="@+id/tvSelectTheme2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="sans-serif"
+                android:gravity="left|center"
+                android:text="Prix Produit : "
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/editText4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/editText3"
+                android:layout_below="@+id/editText3"
+                android:layout_marginTop="20dp"
+                android:ems="10"
+                android:gravity="left|center_vertical"
+                android:hint="@string/prix_prodduit"
+                android:inputType="number" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingBottom="19dp"
+            android:weightSum="1">
+
+            <TextView
+
+                android:id="@+id/tvSelectTheme3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="sans-serif"
+                android:gravity="left|center"
+                android:text="Quantité : "
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/editText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/editText4"
+                android:layout_below="@+id/editText4"
+                android:layout_marginTop="20dp"
+                android:ems="10"
+                android:gravity="left|center_vertical"
+                android:hint="@string/nb_produit"
+                android:inputType="number" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
-
-
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.09"
-            android:text="Prix produit" />
-    <EditText
-        android:id="@+id/editText4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="left|center_vertical"
-        android:layout_alignStart="@+id/editText3"
-        android:layout_below="@+id/editText3"
-        android:layout_marginTop="54dp"
-        android:ems="10"
-        android:hint="@string/prix_prodduit"
-        android:inputType="number" />
-
-        </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.09"
-            android:text="Quantité Produit" />
-    <EditText
-        android:id="@+id/editText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="left|center_vertical"
-        android:layout_alignStart="@+id/editText4"
-        android:layout_below="@+id/editText4"
-        android:layout_marginTop="24dp"
-        android:ems="10"
-        android:hint="@string/nb_produit"
-        android:inputType="number" />
-
-        </LinearLayout>
-
     <Button
         android:id="@+id/button"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="53dp"
-        android:text="@string/button_send"
+        android:layout_marginTop="26dp"
+        android:background="@android:color/holo_blue_dark"
+        android:elevation="13dp"
         android:gravity="center"
-        android:layout_marginEnd="61dp"
-        android:layout_below="@+id/editText"
-        android:layout_alignEnd="@+id/editText" />
-</LinearLayout>
+        android:text="@string/button_send"
+        android:textColor="@color/cardview_light_background"
+        android:textSize="18sp"
+        android:layout_below="@+id/linearLayout1"
+        android:layout_centerHorizontal="true" />
+
+
+
 </RelativeLayout>

@@ -1,11 +1,18 @@
-package com.inventaire2.inventaire2;
+package com.inventaire2.inventaire2.LesModels;
+
+import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by Fal on 26/07/2017.
  */
 
-public class Article {
-    private String Name;
+public class Article extends RealmObject {
+
+    @PrimaryKey
+    public int Id;
+    public String Name;
     public int Price;
     public int Quantite;
 
@@ -38,11 +45,26 @@ public class Article {
         Quantite = quantite;
     }
 
-    public Article(String name, int price, int quantite)
+    public int getId()
+    {
+        return Id;
+    }
+
+    public void setId(int id)
+    {
+        Id = id;
+    }
+
+    public Article(String name, int price, int quantite, int id)
     {
         Name = name;
         Price = price;
         Quantite = quantite;
+        Id = id;
     }
 
+    public Article()
+    {
+        super();
+    }
 }
