@@ -1,14 +1,13 @@
-package com.inventaire2.inventaire2.LesModels;
+package com.inventaire2.inventaire2.Models;
 
 import io.realm.RealmObject;
-import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by Fal on 26/07/2017.
  */
 
-public class Article extends RealmObject {
+public  class Article extends RealmObject {
 
     @PrimaryKey
     public int Id;

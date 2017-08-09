@@ -1,4 +1,4 @@
-package com.inventaire2.inventaire2.LesModels;
+package com.inventaire2.inventaire2.Controllers;
 
 import android.view.View;
 import android.widget.TextView;

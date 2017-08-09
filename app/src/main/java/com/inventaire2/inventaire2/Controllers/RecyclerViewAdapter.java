@@ -1,4 +1,4 @@
-package com.inventaire2.inventaire2.LesModels;
+package com.inventaire2.inventaire2.Controllers;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,7 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.inventaire2.inventaire2.LesVues.Information;
+import com.inventaire2.inventaire2.Models.Article;
+import com.inventaire2.inventaire2.View.Information;
 import com.inventaire2.inventaire2.R;
 
 import java.util.List;
@@ -35,6 +36,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         this.articlesList = articlesList;
     }
+
+
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)

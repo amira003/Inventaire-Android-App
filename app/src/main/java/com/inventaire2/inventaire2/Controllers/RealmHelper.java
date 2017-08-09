@@ -1,13 +1,12 @@
-package com.inventaire2.inventaire2.LesModels;
+package com.inventaire2.inventaire2.Controllers;
 
 /**
  * Created by Fal on 01/08/2017.
  */
 
-import android.support.v7.widget.RecyclerView;
+import com.inventaire2.inventaire2.Models.Article;
 
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicLong;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -47,6 +46,7 @@ public class RealmHelper {
     }
 
     public ArrayList<Article> getListArticle () {
+
         RealmResults<Article> result = realm.where(Article.class)
                 .findAll();
 
@@ -55,15 +55,6 @@ public class RealmHelper {
         return list;
     }
 
-/*    //READ
-    public ArrayList<Article> retrieve()
-    {
-        ArrayList<String> articlesList=new ArrayList<>();
-        RealmResults<Article> article =realm.where(Article.class).findAll();
-
-            articlesList.add(article);
-
-    }*/
 
     public Article getArticle(int id) {
         RealmResults<Article> result = realm.where(Article.class)

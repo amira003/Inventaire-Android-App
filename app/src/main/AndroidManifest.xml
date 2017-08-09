@@ -14,7 +14,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LesVues.MainActivity">
+        <activity android:name=".View.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,22 +22,22 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LesDonnees.Remplissage"
-            android:parentActivityName=".LesVues.MainActivity">
+            android:name=".Data.Remplissage"
+            android:parentActivityName=".View.MainActivity">
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".LesVues.MainActivity" />
+                android:value=".View.MainActivity" />
         </activity>
 
 
         <activity
-            android:name=".LesVues.Information"
-            android:parentActivityName=".LesVues.MainActivity">
+            android:name=".View.Information"
+            android:parentActivityName=".View.MainActivity">
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".LesVues.MainActivity" />
+                android:value=".View.MainActivity" />
         </activity>
 
 

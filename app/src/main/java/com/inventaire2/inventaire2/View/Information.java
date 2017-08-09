@@ -1,4 +1,4 @@
-package com.inventaire2.inventaire2.LesVues;
+package com.inventaire2.inventaire2.View;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,8 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import com.inventaire2.inventaire2.R;
-import com.inventaire2.inventaire2.LesModels.RecyclerViewAdapter;
-import com.inventaire2.inventaire2.LesDonnees.Remplissage;
+import com.inventaire2.inventaire2.Controllers.RecyclerViewAdapter;
+import com.inventaire2.inventaire2.Data.Remplissage;
 
 /**
  * Created by Fal on 27/07/2017.
@@ -28,10 +28,13 @@ public class Information extends AppCompatActivity {
 
 
 
+
         // Capture the layout's TextView and set the string as its text
-        TextView textView = (TextView) findViewById(R.id.textView);
-        textView.setText("le nom est : " +message + " , le prix : " + Integer.toString(message2) +"et la quantite "+ Integer.toString(message3));
+        TextView textView = (TextView) findViewById(R.id.tv2);
+        textView.setText(message);
+      //  textView.setText("le nom est : " +message + " , le prix : " + Integer.toString(message2) +"et la quantite "+ Integer.toString(message3));
 
     }
+
 
 }
