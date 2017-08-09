@@ -3,10 +3,13 @@ package com.inventaire2.inventaire2.Data;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.inventaire2.inventaire2.Configuration.GsonService;
 import com.inventaire2.inventaire2.Models.Article;
 import com.inventaire2.inventaire2.Controllers.RealmHelper;
 import com.inventaire2.inventaire2.Controllers.RecyclerViewAdapter;
@@ -17,6 +20,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by Fal on 27/07/2017.
@@ -31,7 +39,7 @@ public class Remplissage extends AppCompatActivity{
     private Realm realm;
     private RecyclerViewAdapter mAdapter;
     public List<Article> articlesList = new ArrayList<>();
-    public final static String API = "http://192.168.1.30:8080/api/";
+    public final static String API2 = "http://192.168.1.30:8080/laravelNew/public/api/";
 
 
     @Override
@@ -51,10 +59,10 @@ public class Remplissage extends AppCompatActivity{
             EditText editText = (EditText) findViewById(R.id.editText3);
             EditText editText2 = (EditText) findViewById(R.id.editText4);
                 EditText editText3 = (EditText) findViewById(R.id.editText);
-            String message = editText.getText().toString();
-            int message2 = Integer.parseInt(editText2.getText()
+      final      String message = editText.getText().toString();
+      final      int message2 = Integer.parseInt(editText2.getText()
                     .toString());
-                int message3 = Integer.parseInt(editText3.getText()
+         final       int message3 = Integer.parseInt(editText3.getText()
                         .toString());
 
 
@@ -64,40 +72,62 @@ public class Remplissage extends AppCompatActivity{
 
 
                 //GET DATA
-                Article article = new Article();
+          final      Article article = new Article();
                 article.setName(message);
                 article.setPrice(message2);
                 article.setQuantite(message3);
                 // cela s incrimente Tout seul article.setId(1);
 
-          /*          // Retrofit
-                    Retrofit retrofit = new Retrofit.Builder()
-                            .baseUrl(API)
-                            .addConverterFactory(GsonConverterFactory.create())
-                            .build();
+                 // Retrofit
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(API2)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
 
-                    GsonService git = retrofit.create(GsonService.class);
-                    Call<List<Article>> call = git.groupList();
+        GsonService git = retrofit.create(GsonService.class);
 
-                    call.enqueue(new Callback<List<Article>>() {
-                        @Override
-                        public void onResponse(Call<List<Article>> call, Response<List<Article>> response) {
-                            List<Article> model = response.body();
-                            Toast.makeText(Remplissage.this, String.format("OK"), Toast.LENGTH_SHORT).show();
-                        }
-                        @Override
-                        public void onFailure(Call<List<Article>> call, Throwable t) {
-                            Toast.makeText(Remplissage.this, t.getMessage()+ ""+t.getStackTrace(), Toast.LENGTH_SHORT).show();
-                            Log.d(TAG, "onFailure: "+t.getMessage()+ ""+t.getStackTrace());
+        Call<List<Article>> call = git.group2List(message,message2,message3);
 
-                        }
-                    });            */
+        call.enqueue(new Callback<List<Article>>() {
+
+            @Override
+            public void onResponse(Call<List<Article>> call, Response<List<Article>> response) {
+                if (response.isSuccessful()) {
+                    Log.d("APIPlug", "Successfully2 " + response.body().toString());
+                    List<Article> model = response.body();
+                    articlesList.addAll(model);
+                    for (Article p : articlesList) {
+                        p.setName(message);
+                        p.setPrice(message2);
+                        p.setQuantite(message3);
+                        // Save Data
+                        RealmHelper helper=new RealmHelper();
+                        helper.save2(p);
+                    }
+                }
+                else
+            {
+                Log.d("APIDefault", "Not success2 , we need Realm " + response.errorBody());
+
+            }
+
+        }
+        @Override
+        public void onFailure(Call<List<Article>> call, Throwable t) {
+            Log.d("TAG2", "onFailure2 : "+t.getMessage()+ "   "+t.getStackTrace());
+            RealmHelper helper=new RealmHelper();
+            helper.save2(article);
+
+        }
+    });
+
+    // Fin Retrofit
 
 
-
+            /*
                // Save Data
                 RealmHelper helper=new RealmHelper();
-                helper.save2(article);
+                helper.save2(article);   */
 
                 startActivity(intent);
 

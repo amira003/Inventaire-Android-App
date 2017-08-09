@@ -1,5 +1,7 @@
 package com.inventaire2.inventaire2.View;
 
+
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -67,39 +69,44 @@ public class MainActivity extends AppCompatActivity {
 
         Call<List<Article>> call = git.groupList();
 
+     //Loading...
+     final   ProgressDialog mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.show();
+
         call.enqueue(new Callback<List<Article>>() {
 
             @Override
             public void onResponse(Call<List<Article>> call, Response<List<Article>> response) {
                 if (response.isSuccessful()) {
                     Log.d("APIPlug", "Successfully " + response.body().toString());
+                    if (mProgressDialog.isShowing())
+                        mProgressDialog.dismiss();
                     model = response.body();
                     articlesList.addAll(model);
                     initialiseData();
-
-              /*      if (model.size() > 0) {
-                        initialiseData();
-                    } else {
-                        Log.d("APIPlug", "No item found");
-                    }                commment */
                 }
                 else
                    {
-                    Log.d("APIDefault", "Not success " + response.errorBody());
+                    Log.d("APIDefault", "Not success, we need Realm " + response.errorBody());
+
                   }
 
             }
             @Override
             public void onFailure(Call<List<Article>> call, Throwable t) {
+                if (mProgressDialog.isShowing())
+                    mProgressDialog.dismiss();
                 Toast.makeText(MainActivity.this, t.getMessage()+ ""+t.getStackTrace(), Toast.LENGTH_SHORT).show();
                 Log.d(TAG2, "onFailure: "+t.getMessage()+ ""+t.getStackTrace());
+                initialiseData2();
 
             }
         });
 
         // Fin Retrofit
 
-     //   initialiseData();
     }
 
     private void save(){
@@ -149,18 +156,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void initialiseData() {
+   private void initialiseData() {
         Log.d("APIPlug", "Show List");
-  /*       articlesList = rh.getListArticle();
-
-        mAdapter = new RecyclerViewAdapter(this, articlesList);
-        mRecyclerView.setAdapter(mAdapter);  */
-
 
         mAdapter = new RecyclerViewAdapter(MainActivity.this, articlesList);
         mRecyclerView.setAdapter(mAdapter);
 
     }
+
+    private void initialiseData2() {
+        articlesList = rh.getListArticle();
+
+        mAdapter = new RecyclerViewAdapter(this, articlesList);
+        mRecyclerView.setAdapter(mAdapter);
+
+    }
+
+
 
 }
 
