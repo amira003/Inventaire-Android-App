@@ -8,6 +8,7 @@
     <string name="nm_produit">Entrer Nom Produit</string>
     <string name="prix_prodduit">Montant prix</string>
     <string name="button_send">Ajouter</string>
+    <string name="button_del">Del</string>
     <string name="nb_produit">Quantite produit</string>
     <string name="nom_produit">Nom Produit</string>
 </resources>

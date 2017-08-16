@@ -57,11 +57,12 @@ public class RealmHelper {
 
 
     public Article getArticle(int id) {
-        RealmResults<Article> result = realm.where(Article.class)
+  RealmResults<Article> result = realm.where(Article.class)
                 .equalTo("Id", id)
                 .findAll();
         if (result.size() > 0) return result.first();
         return null;
     }
+
 
 }

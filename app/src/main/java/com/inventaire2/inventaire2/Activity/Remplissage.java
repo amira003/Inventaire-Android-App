@@ -1,4 +1,4 @@
-package com.inventaire2.inventaire2.Data;
+package com.inventaire2.inventaire2.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,13 +7,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import com.inventaire2.inventaire2.Configuration.GsonService;
+import com.inventaire2.inventaire2.Application.GsonService;
+import com.inventaire2.inventaire2.Controllers.ViewHolder;
 import com.inventaire2.inventaire2.Models.Article;
 import com.inventaire2.inventaire2.Controllers.RealmHelper;
 import com.inventaire2.inventaire2.Controllers.RecyclerViewAdapter;
-import com.inventaire2.inventaire2.View.MainActivity;
 import com.inventaire2.inventaire2.R;
 
 import java.util.ArrayList;
@@ -39,7 +38,7 @@ public class Remplissage extends AppCompatActivity{
     private Realm realm;
     private RecyclerViewAdapter mAdapter;
     public List<Article> articlesList = new ArrayList<>();
-    public final static String API2 = "http://192.168.1.30:8080/laravelNew/public/api/";
+    public final static String API2 = "http://192.168.1.26:8080/laravelNew/public/api/";
 
 
     @Override
@@ -47,6 +46,7 @@ public class Remplissage extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.remplissage_add);
 
+        final   RealmHelper helper=new RealmHelper();
         /** Called when the user taps the Send button */
         Button btnSendSMS = (Button) findViewById(R.id.button);
 
@@ -78,56 +78,52 @@ public class Remplissage extends AppCompatActivity{
                 article.setQuantite(message3);
                 // cela s incrimente Tout seul article.setId(1);
 
-                 // Retrofit
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(API2)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        GsonService git = retrofit.create(GsonService.class);
-
-        Call<List<Article>> call = git.group2List(message,message2,message3);
-
-        call.enqueue(new Callback<List<Article>>() {
-
-            @Override
-            public void onResponse(Call<List<Article>> call, Response<List<Article>> response) {
-                if (response.isSuccessful()) {
-                    Log.d("APIPlug", "Successfully2 " + response.body().toString());
-                    List<Article> model = response.body();
-                    articlesList.addAll(model);
-                    for (Article p : articlesList) {
-                        p.setName(message);
-                        p.setPrice(message2);
-                        p.setQuantite(message3);
-                        // Save Data
-                        RealmHelper helper=new RealmHelper();
-                        helper.save2(p);
-                    }
-                }
-                else
-            {
-                Log.d("APIDefault", "Not success2 , we need Realm " + response.errorBody());
-
-            }
-
-        }
-        @Override
-        public void onFailure(Call<List<Article>> call, Throwable t) {
-            Log.d("TAG2", "onFailure2 : "+t.getMessage()+ "   "+t.getStackTrace());
-            RealmHelper helper=new RealmHelper();
-            helper.save2(article);
-
-        }
-    });
-
-    // Fin Retrofit
+                final ViewHolder holder = new ViewHolder(view);
+                final    int position = holder.getAdapterPosition();
 
 
-            /*
-               // Save Data
-                RealmHelper helper=new RealmHelper();
-                helper.save2(article);   */
+              // Retrofit
+              Retrofit retrofit = new Retrofit.Builder()
+                      .baseUrl(API2)
+                      .addConverterFactory(GsonConverterFactory.create())
+                      .build();
+
+              GsonService git = retrofit.create(GsonService.class);
+
+              Call<List<Article>> call = git.group2List(message, message2, message3);
+
+              call.enqueue(new Callback<List<Article>>() {
+
+                  @Override
+                  public void onResponse(Call<List<Article>> call, Response<List<Article>> response) {
+                      if (response.isSuccessful()) {
+                          Log.d("APIPlug", "Successfully2 " + response.body().toString());
+                          List<Article> model = response.body();
+                          mAdapter.add2(position);
+                          articlesList.addAll(model);
+                          for (Article p : articlesList) {
+                              p.setName(message);
+                              p.setPrice(message2);
+                              p.setQuantite(message3);
+                          }
+                      } else {
+                          Log.d("APIDefault", "Not success2 , we need Realm " + response.errorBody());
+
+                      }
+
+                  }
+
+                  @Override
+                  public void onFailure(Call<List<Article>> call, Throwable t) {
+                      Log.d("TAG2", "onFailure2 : " + t.getMessage() + "   " + t.getStackTrace());
+                      // helper.save2(article);   dont save,  not connexion...
+
+                  }
+              });
+
+          // Fin Retrofit
+
+                helper.save2(article);
 
                 startActivity(intent);
 

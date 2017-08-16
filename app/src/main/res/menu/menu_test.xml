@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.inventaire2.inventaire2.View.MainActivity">
+    tools:context="com.inventaire2.inventaire2.Activity.MainActivity">
 
     <item
         android:id="@+id/action_save"

@@ -1,4 +1,4 @@
-package com.inventaire2.inventaire2.View;
+package com.inventaire2.inventaire2.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,7 +7,6 @@ import android.widget.TextView;
 
 import com.inventaire2.inventaire2.R;
 import com.inventaire2.inventaire2.Controllers.RecyclerViewAdapter;
-import com.inventaire2.inventaire2.Data.Remplissage;
 
 /**
  * Created by Fal on 27/07/2017.

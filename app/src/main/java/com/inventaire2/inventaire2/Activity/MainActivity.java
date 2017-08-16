@@ -1,4 +1,4 @@
-package com.inventaire2.inventaire2.View;
+package com.inventaire2.inventaire2.Activity;
 
 
 import android.app.ProgressDialog;
@@ -9,17 +9,20 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.inventaire2.inventaire2.Configuration.GsonService;
+import com.inventaire2.inventaire2.Application.GsonService;
+import com.inventaire2.inventaire2.Controllers.ViewHolder;
 import com.inventaire2.inventaire2.Models.Article;
 import com.inventaire2.inventaire2.Controllers.RealmHelper;
 import com.inventaire2.inventaire2.R;
 import com.inventaire2.inventaire2.Controllers.RecyclerViewAdapter;
-import com.inventaire2.inventaire2.Data.Remplissage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,8 +42,9 @@ public class MainActivity extends AppCompatActivity {
     private List<Article> articlesList = new ArrayList<>();
     private List<Article> model;
     RealmHelper rh;
+    RecyclerViewAdapter rva;
     private static final String TAG2 ="MainActivity" ;
-    public final static String API = "http://192.168.1.30:8080/laravelNew/public/api/";
+    public final static String API = "http://192.168.1.26:8080/laravelNew/public/api/";
 
 
     @Override
@@ -50,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         //Realm realm = Realm.getDefaultInstance();
 
         rh = new RealmHelper();
+        RecyclerViewAdapter  rva = new RecyclerViewAdapter(this,model);
         mRecyclerView = (RecyclerView) findViewById(R.id.RecyclerView);
         mAdapter = new RecyclerViewAdapter(this, articlesList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
@@ -58,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(mAdapter);
+
 
         // Retrofit
         Retrofit retrofit = new Retrofit.Builder()
@@ -85,6 +91,11 @@ public class MainActivity extends AppCompatActivity {
                         mProgressDialog.dismiss();
                     model = response.body();
                     articlesList.addAll(model);
+
+                /*    for (Article p:articlesList){
+                        rh.save2(p);
+                    }          its for update */
+              
                     initialiseData();
                 }
                 else
