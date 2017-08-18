@@ -33,7 +33,8 @@ public interface GsonService {
     @PUT("produits/{Id}")
     @FormUrlEncoded
     Call<List<Article>> group3List(@Path("Id") int Id, @Field("Name") String Name,
-                                   @Field("Price") int Price
+                                   @Field("Price") int Price,
+                                   @Field("Quantite") int Quantite
     );
 
     @DELETE("produits/{Id}")

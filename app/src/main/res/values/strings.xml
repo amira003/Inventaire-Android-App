@@ -1,7 +1,10 @@
 <resources>
     <string name="ajout_produit">Ajout Produit</string>
     <string name="info">Information</string>
+    <string name="app_name0">Inventaire</string>
     <string name="app_name">Inventaire</string>
+    <string name="app_name1">Information</string>
+    <string name="app_name2">Add Products</string>
     <string name="action_save">Save</string>
     <string name="action_settings">Settings</string>
     <string name="action_delete">Delete</string>

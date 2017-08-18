@@ -1,10 +1,13 @@
 package com.inventaire2.inventaire2.Controllers;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.inventaire2.inventaire2.Activity.MainActivity;
+import com.inventaire2.inventaire2.Activity.Remplissage;
 import com.inventaire2.inventaire2.Application.GsonService;
 import com.inventaire2.inventaire2.Models.Article;
 import com.inventaire2.inventaire2.Activity.Information;
@@ -46,7 +50,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private LayoutInflater inflater;
     private Context context;
     private List<Article> articlesList;
-    private List<Article> artList = new ArrayList<>();
+    private RecyclerViewAdapter mAdapter;
+    private RecyclerView mRecyclerView;
+    MainActivity ma;
     private Realm realm;
     public final static String API3 = "http://192.168.1.26:8080/laravelNew/public/api/";
 
@@ -82,10 +88,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void delete(int position) { //removes the row recyclerview
         articlesList.remove(position);
         notifyItemRemoved(position);
-        notifyItemRangeChanged(position, getItemCount() - position);
+        notifyItemRangeChanged(position, getItemCount());
     }
 
-    public void deleteRealm(int id) {
+    public void deleteRealm(int id, int position) {
         realm = Realm.getDefaultInstance();
         RealmQuery<Article> query = realm.where(Article.class);
         RealmResults result = query.equalTo("Id", id).findAll();
@@ -93,17 +99,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 realm.beginTransaction();
                 result.deleteFirstFromRealm();
                 realm.commitTransaction();
+              articlesList.remove(position);
+                 notifyItemRemoved(position);
+                notifyItemRangeChanged(position, getItemCount());
                 notifyDataSetChanged();
     }
-
-
-
 
         public int getId(int position)
         {
         return articlesList.get(position).Id;
        }
-
 
 
     public void add2(int position) {
@@ -116,7 +121,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     {
         return articlesList.size();
     }
-
 
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -134,16 +138,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             itemView.setOnClickListener(this);
 
 
-            // delete Products
+           // delete Products
             btnDel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
 
-                   // dialog delet
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setTitle(" Are you sure  ? ");
                     builder.setNegativeButton("cancel",null);
                     builder.setPositiveButton("confirm", new DialogInterface.OnClickListener(){
+
+                      //  Intent intent = new Intent(context, MainActivity.class);
 
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -157,10 +162,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                             GsonService git = retrofit.create(GsonService.class);
 
                             final int pi = getId(getAdapterPosition());
+                            final int position = getAdapterPosition();
+
 
                             Call<List<Article>> call2 = git.group4List(pi);
 
-                            deleteRealm(pi);
+                            deleteRealm(pi,position); // Delete items form Realm
+
+                            Toast.makeText(context, "Supprimé " , Toast.LENGTH_SHORT).show();
 
                             call2.enqueue(new Callback<List<Article>>() {
 
@@ -169,7 +178,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                                     switch (response.code()) {
                                         case 200:
                                             Log.d("delS", " delete success");
-                                            deleteRealm(pi); // Delete items form Realm
+                                            deleteRealm(pi,position); // Delete items form Realm
                                             delete(pi); //calls the method above to delete
                                             break;
                                         default:
@@ -184,12 +193,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
                                 @Override
                                 public void onFailure(Call<List<Article>> call, Throwable t) {
-                                    Log.d("TAG3", "onFailure3 modify: " + t.getMessage() + "   " + t.getStackTrace());
-
+                                    Log.d("TAG4", "onFailure4 delete: " + t.getMessage() + "   " + t.getStackTrace());
 
                                 }
 
                             });
+                      //      context.startActivity(intent);
                         }
                     });
                     builder.show();
@@ -217,8 +226,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             View view = LayoutInflater.from(context).inflate(R.layout.dialog_view, null);
             final EditText edit_dialog = (EditText) view.findViewById(R.id.edit_dialog);
             final EditText edit_dialog1 = (EditText) view.findViewById(R.id.edit_dialog1);
+            final EditText edit_dialog2 = (EditText) view.findViewById(R.id.edit_dialog2);
             edit_dialog.setText(str);
             edit_dialog1.setText(Integer.toString(str1));
+            edit_dialog2.setText(Integer.toString(0));
             builder.setView(view);
             builder.setNegativeButton("cancel",null);
             builder.setPositiveButton("confirm", new DialogInterface.OnClickListener() {
@@ -233,7 +244,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
                     GsonService git = retrofit.create(GsonService.class);
 
-                    Call<List<Article>> call = git.group3List(p,edit_dialog.getText().toString(),Integer.parseInt(edit_dialog1.getText().toString()));
+                    Call<List<Article>> call = git.group3List(p,edit_dialog.getText().toString(),Integer.parseInt(edit_dialog1.getText().toString()),Integer.parseInt(edit_dialog2.getText().toString()));
 
                     call.enqueue(new Callback<List<Article>>() {
 

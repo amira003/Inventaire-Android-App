@@ -2,7 +2,10 @@ package com.inventaire2.inventaire2.Activity;
 
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -14,10 +17,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.inventaire2.inventaire2.Application.GsonService;
+import com.inventaire2.inventaire2.Application.MyApplication;
 import com.inventaire2.inventaire2.Controllers.ViewHolder;
 import com.inventaire2.inventaire2.Models.Article;
 import com.inventaire2.inventaire2.Controllers.RealmHelper;
@@ -54,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
         //Realm realm = Realm.getDefaultInstance();
 
         rh = new RealmHelper();
-        RecyclerViewAdapter  rva = new RecyclerViewAdapter(this,model);
         mRecyclerView = (RecyclerView) findViewById(R.id.RecyclerView);
         mAdapter = new RecyclerViewAdapter(this, articlesList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
@@ -75,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
 
         Call<List<Article>> call = git.groupList();
 
-     //Loading...
+        //Loading...
      final   ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.setMessage("Loading...");
@@ -101,6 +105,9 @@ public class MainActivity extends AppCompatActivity {
                 else
                    {
                     Log.d("APIDefault", "Not success, we need Realm " + response.errorBody());
+                       if (mProgressDialog.isShowing())
+                           mProgressDialog.dismiss();
+                       Toast.makeText(MainActivity.this, " Refresh ", Toast.LENGTH_SHORT).show();
 
                   }
 
@@ -112,13 +119,14 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, t.getMessage()+ ""+t.getStackTrace(), Toast.LENGTH_SHORT).show();
                 Log.d(TAG2, "onFailure: "+t.getMessage()+ ""+t.getStackTrace());
                 initialiseData2();
-
             }
-        });
+        });       // Fin Retrofit SHOW LIST
 
-        // Fin Retrofit
+        // delete Products
+    //    deleteProducts();
 
     }
+
 
     private void save(){
         Intent intent = new Intent(MainActivity.this, Remplissage.class);
@@ -167,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-   private void initialiseData() {
+   public void initialiseData() {
         Log.d("APIPlug", "Show List");
 
         mAdapter = new RecyclerViewAdapter(MainActivity.this, articlesList);
